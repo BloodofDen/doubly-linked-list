@@ -24,9 +24,17 @@ class LinkedList {
         delete this.Node_temp;
     }
 
-    head() {return(this._head.data);}
+    head() {
+        if (this._head === null)
+            return null;
+        return(this._head.data);
+    }
 
-    tail() {return(this._tail.data);}
+    tail() {
+        if (this._tail === null)
+            return null;
+        return(this._tail.data);
+    }
 
     at(index) {
         var chooser = this._head;
@@ -37,6 +45,11 @@ class LinkedList {
     }
 
     insertAt(index, data) {
+        if(this._head === null && index === 0)
+        {
+            this.append(data);
+            return;
+        }
         var chooser = this._head;
         for(var i = 0; i < index; i++) {
             chooser = chooser.next;
@@ -50,16 +63,28 @@ class LinkedList {
     }
 
     clear() {
-        this._head.data = null;
-        this._head.next = null;
-        this._tail.data = null;
-        this._tail.prev = null;
+        this._head = null;
+        this._tail = null;
         this.length = 0;
     }
 
     deleteAt(index) {
+        if(index === 0 && this.length === 1)
+        {
+            this._head = null;
+            this._tail = null;
+            this.length = 0;
+            return;
+        }
+        if(index === 0)
+        {
+            this._head = this._head.next;
+            this._head.prev = null;
+            this.length--;
+            return;
+        }
         var chooser = this._head;
-        for(var i = 0; i < index; i++) {
+        for (var i = 0; i < index; i++) {
             chooser = chooser.next;
         }
         var before = chooser.prev;
@@ -70,6 +95,8 @@ class LinkedList {
     }
 
     reverse() {
+        if(this.length === 1)
+            return;
         var head_temp = this._head, tail_temp = this._tail;
         for(var i = 0; i < Math.ceil(this.length/2); i++)
         {
