@@ -20,19 +20,17 @@ class LinkedList {
             this._head = this.Node_temp;
             this._tail = this.Node_temp;
         }
-        this.length++;
+        ++this.length;
         delete this.Node_temp;
     }
 
     head() {
-        if (this._head === null)
-            return null;
+        if (!this._head) return null;
         return(this._head.data);
     }
 
     tail() {
-        if (this._tail === null)
-            return null;
+        if (!this._tail) return null;
         return(this._tail.data);
     }
 
@@ -45,7 +43,7 @@ class LinkedList {
     }
 
     insertAt(index, data) {
-        if(this._head === null && index === 0)
+        if(!this._head && !index)
         {
             this.append(data);
             return;
@@ -69,6 +67,7 @@ class LinkedList {
     }
 
     deleteAt(index) {
+        if(index<0 || index>this.length-1) throw new Error("Error! Incorrect index!");
         if(index === 0 && this.length === 1)
         {
             this._head = null;
@@ -91,21 +90,22 @@ class LinkedList {
         var after = chooser.next;
         before.next = after;
         after.prev = before;
-        this.length--;
+        --this.length;
     }
 
     reverse() {
-        if(this.length === 1)
-            return;
-        var head_temp = this._head, tail_temp = this._tail;
-        for(var i = 0; i < Math.ceil(this.length/2); i++)
+        if(this._head != this._tail)
         {
-            var temporary = head_temp.data;
-            head_temp.data = tail_temp.data;
-            tail_temp.data = temporary;
+            var head_temp = this._head, tail_temp = this._tail;
+            for(var i = 0; i < Math.trunc(this.length/2); i++)
+            {
+                var temporary = head_temp.data;
+                head_temp.data = tail_temp.data;
+                tail_temp.data = temporary;
 
-            head_temp = head_temp.next;
-            tail_temp = tail_temp.prev;
+                head_temp = head_temp.next;
+                tail_temp = tail_temp.prev;
+            }
         }
     }
 
