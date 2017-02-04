@@ -94,18 +94,15 @@ class LinkedList {
     }
 
     reverse() {
-        if(this._head != this._tail)
+        var head_temp = this._head, tail_temp = this._tail;
+        for(var i = 0; i < Math.trunc(this.length/2); i++)
         {
-            var head_temp = this._head, tail_temp = this._tail;
-            for(var i = 0; i < Math.trunc(this.length/2); i++)
-            {
-                var temporary = head_temp.data;
-                head_temp.data = tail_temp.data;
-                tail_temp.data = temporary;
+            var temporary = head_temp.data;
+            head_temp.data = tail_temp.data;
+            tail_temp.data = temporary;
 
-                head_temp = head_temp.next;
-                tail_temp = tail_temp.prev;
-            }
+            head_temp = head_temp.next;
+            tail_temp = tail_temp.prev;
         }
     }
 
