@@ -8,20 +8,20 @@ class LinkedList {
     }
 
     append(data) {
-        this.Node_temp = new Node(data);
+        var Node_temp = new Node(data);
         if(this.length)
         {
-            this.Node_temp.prev = this._tail;
-            this._tail.next = this.Node_temp;
-            this._tail = this.Node_temp;
+            Node_temp.prev = this._tail;
+            this._tail.next = Node_temp;
+            this._tail = Node_temp;
         }
         else
         {
-            this._head = this.Node_temp;
-            this._tail = this.Node_temp;
+            this._head = Node_temp;
+            this._tail = Node_temp;
         }
         ++this.length;
-        delete this.Node_temp;
+        return this;
     }
 
     head() {
@@ -46,13 +46,14 @@ class LinkedList {
         if(!this._head && !index)
         {
             this.append(data);
-            return;
+            return this;
         }
-            var chooser = this._head;
+        var chooser = this._head;
         for(var i = 0; i < index; i++) {
             chooser = chooser.next;
         }
         chooser.data = data;
+        return this;
     }
 
     isEmpty() {
@@ -64,23 +65,21 @@ class LinkedList {
         this._head = null;
         this._tail = null;
         this.length = 0;
+        return this;
     }
 
     deleteAt(index) {
-        if(index<0 || index>this.length-1) throw new Error("Error! Incorrect index!");
-        if(index === 0 && this.length === 1)
-        {
-            this._head = null;
-            this._tail = null;
-            this.length = 0;
-            return;
-        }
+        if(index < 0 || index > this.length-1) throw new Error("Error! Incorrect index!");
         if(index === 0)
         {
+            if (this.length === 1) {
+                this.clear();
+                return this;
+            }
             this._head = this._head.next;
             this._head.prev = null;
             this.length--;
-            return;
+            return this;
         }
         var chooser = this._head;
         for (var i = 0; i < index; i++) {
@@ -91,26 +90,23 @@ class LinkedList {
         before.next = after;
         after.prev = before;
         --this.length;
-    }
-    
-    reverse() {
-        var Pointer = this._head, temporary;
-        for(var i = 0; i < this.length; i++)
-        {
-          temporary = Pointer.next;
-          Pointer.next = Pointer.prev;
-          Pointer.prev = temporary;
-
-          Pointer = Pointer.prev;
-        }
-
-        temporary = this._head;
-        this._head = this._tail;
-        this._tail = temporary;
-        
         return this;
     }
-    
+
+    reverse() {
+        var head_temp = this._head, tail_temp = this._tail;
+        for(var i = 0; i < Math.trunc(this.length/2); i++)
+        {
+            var temporary = head_temp.data;
+            head_temp.data = tail_temp.data;
+            tail_temp.data = temporary;
+
+            head_temp = head_temp.next;
+            tail_temp = tail_temp.prev;
+        }
+        return this;
+    }
+
     indexOf(data) {
         var chooser = this._head;
         for(var i = 0; i < this.length; i++)
