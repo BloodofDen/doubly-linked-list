@@ -48,7 +48,7 @@ class LinkedList {
             this.append(data);
             return;
         }
-        var chooser = this._head;
+            var chooser = this._head;
         for(var i = 0; i < index; i++) {
             chooser = chooser.next;
         }
@@ -92,20 +92,25 @@ class LinkedList {
         after.prev = before;
         --this.length;
     }
-
+    
     reverse() {
-        var head_temp = this._head, tail_temp = this._tail;
-        for(var i = 0; i < Math.trunc(this.length/2); i++)
+        var Pointer = this._head, temporary;
+        for(var i = 0; i < this.length; i++)
         {
-            var temporary = head_temp.data;
-            head_temp.data = tail_temp.data;
-            tail_temp.data = temporary;
+          temporary = Pointer.next;
+          Pointer.next = Pointer.prev;
+          Pointer.prev = temporary;
 
-            head_temp = head_temp.next;
-            tail_temp = tail_temp.prev;
+          Pointer = Pointer.prev;
         }
-    }
 
+        temporary = this._head;
+        this._head = this._tail;
+        this._tail = temporary;
+        
+        return this;
+    }
+    
     indexOf(data) {
         var chooser = this._head;
         for(var i = 0; i < this.length; i++)
